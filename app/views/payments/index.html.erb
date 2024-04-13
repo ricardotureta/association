@@ -25,14 +25,13 @@
       </tr>
     </thead>
     <tbody>
-      <% @debts.each do |debt| %>
+      <% @payments.each do |payment| %>
         <tr>
-          <td><%= debt.id %></td>
-          <td><%= debt.person.name %></td>
-          <td><%= debt.observation %></td>
-          <td class="text-end"><%= debt.amount %></td>
+          <td><%= payment.id %></td>
+          <td><%= payment.person.name %></td>
+          <td class="text-end"><%= payment.amount %></td>
           <td class="text-end">
-            <%= button_to debt, method: :delete, class: "btn btn-danger btn-sm" do %>
+            <%= button_to payment, method: :delete, class: "btn btn-danger btn-sm" do %>
               <i class="bi bi-trash"></i>
             <% end %>
           </td>
@@ -42,3 +41,4 @@
   </table>
 </div>
 <%= will_paginate @posts %>
+
