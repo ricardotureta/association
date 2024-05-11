@@ -9,6 +9,12 @@ gem 'will_paginate', '~> 4.0'
 
 gem 'rails_performance'
 
+gem 'faker'
+
+gem 'will_paginate', '~> 4.0'
+
+gem 'rails_performance'
+
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
