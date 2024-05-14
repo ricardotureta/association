@@ -303,6 +303,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   capybara
+  chartkick
   cpf_cnpj
   cssbundling-rails
   debug
