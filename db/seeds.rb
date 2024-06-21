@@ -1,42 +1,60 @@
-Payment.destroy_all
+require 'faker'
+require 'cpf_cnpj'
+
 Debt.destroy_all
+Person.destroy_all
 User.destroy_all
-User.create email: 'admin@admin.com', password: '111111'
+Debt.destroy_all
+Person.destroy_all
 
-puts "Usuário criado:"
-puts "login admin@admin.com"
-puts "111111"
+User.create(
+  email: 'admin@admin.com',
+  password: '1234567'
+)
 
-5.times do |counter|
-  puts "Creating user #{counter}"
-  User.create email: Faker::Internet.email, password: '111111'
+User.create(
+  email: 'admin2@admin.com',
+  password: '1234567'
+)
+
+
+user_ids = []
+50.times do |count|
+  user = User.create(
+    email: Faker::Internet.email,
+    password: Faker::Internet.password
+  )
+  user_ids << user.id
+  puts "Criando usuário: #{count}"
 end
 
-3000.times do |counter|
-  puts "Inserting Person #{counter}"
-
-  attrs = {
+person_ids = []
+100000.times do |count|
+  person = Person.create(
     name: Faker::Name.name,
     phone_number: Faker::PhoneNumber.phone_number,
     national_id: CPF.generate,
-    active: [true, false].sample,
-    user: User.order('random()').first
-  }
-  person = Person.create(attrs)
+    active: Faker::Boolean.boolean,
+    user_id: user_ids.sample
+  )
+  person_ids << person.id
+  puts "Criando pessoa: #{count}"
+end
 
-  5.times do |debt_counter|
-    puts "Inserting Debt #{debt_counter}"
-    person.debts.create(
-      amount: Faker::Number.between(from: 1, to: 200),
-      observation: Faker::Lorem.paragraph
+15000.times do |count|
+  Debt.create(
+    person_id: person_ids.sample,
+    amount: Faker::Number.decimal(l_digits: 2),
+    observation: Faker::Lorem.sentence
     )
-  end
-  5.times do |payment_counter|
-    puts "Inserting Payments #{payment_counter}"
-    person.payments.create(
-      amount: Faker::Number.between(from: 1, to: 200),
-      paid_at: Faker::Date.between(from: 2.years.ago, to: Date.today)
+  puts "Criando conta: #{count}"
+end
+
+15000.times do |count|
+  Payment.create(
+    person_id: person_ids.sample,
+    amount: Faker::Number.decimal(l_digits: 2),
+    paid_at: Faker::Date.between(from: 1.year.ago, to: Date.today)
     )
-  end
-  
+  puts "Criando pagamento: #{count}"
 end
